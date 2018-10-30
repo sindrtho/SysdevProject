@@ -5,6 +5,7 @@ import { Component } from 'react-simplified';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {Card} from './widgets';
+import {newsService} from './services';
 
 let history = [];
 
@@ -85,19 +86,13 @@ class NewsFeed extends Component {
 }
 
 class NewsList extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            result: [],
-            url: "http://localhost:8080/artikkel"
-        }
-    }
+    Cases = [];
 
     render() {
         return (
             <ul className="list-of-news">
                 {
-                    this.state.result.map(e => {
+                    this.Cases.map(e => {
                         return (<li>
                             <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
                                 <NewsCase tittel={e.tittel} kategori={e.kategori} dato={e.tidspunkt} imgurl={e.bilde}/>
@@ -109,27 +104,20 @@ class NewsList extends Component {
         );
     }
 
-    componentDidMount(){
-        fetch(this.state.url, {
-            method: "GET",
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(res2 => this.setState({result: res2}))
-            .catch(error => {
-                console.log(error)
-            })
+    mounted() {
+        newsService.getNews()
+            .then(e => this.Cases = e)
+            .catch(err => console.log(err))
     }
 }
 
 class News extends Component {
+    Case = [];
+
     constructor(props) {
         super(props);
         this.state = {
-            results: [],
-            url: "http://localhost:8080/artikkel/" + props.match.params.id
+            id: props.match.params.id
         };
     }
 
@@ -137,7 +125,7 @@ class News extends Component {
         return (
             <div>
                 {
-                    this.state.results.map(e => {
+                    this.Case.map(e => {
                         return(
                             <div>
                                 <h1>{e.tittel}</h1>
@@ -157,20 +145,26 @@ class News extends Component {
         );
     }
 
-    componentDidMount() {
-        console.log(this.state.url);
-        fetch(this.state.url, {
-            method: "GET",
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(res2 => this.setState({results: res2}))
-            .catch(error => {
-                console.log(error)
-            })
+    mounted() {
+        newsService.getANews(this.state.id)
+            .then(e => this.Case = e)
+            .catch(err => console.log(err))
     }
+
+    // componentDidMount() {
+    //     console.log(this.state.url);
+    //     fetch(this.state.url, {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type" : "application/json"
+    //         }
+    //     })
+    //         .then(res => res.json())
+    //         .then(res2 => this.setState({results: res2}))
+    //         .catch(error => {
+    //             console.log(error)
+    //         })
+    // }
 }
 
 const root = document.getElementById('root');

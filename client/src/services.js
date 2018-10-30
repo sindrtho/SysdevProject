@@ -2,24 +2,23 @@
 import axios from 'axios';
 axios.interceptors.response.use(response => response.data);
 
-class Student {
+class Artikkel {
   id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
+  tittel: string;
+  dato: string;
+  innhold: string;
+  kategori: string;
+  bilde: string;
 }
 
-class StudentService {
-  getStudents(): Promise<Student[]> {
-    return axios.get('/students');
+class NewsService {
+  getNews(): Promise<Artikkel[]> {
+    return axios.get('/artikkel');
   }
 
-  getStudent(id: number): Promise<Student> {
-    return axios.get('/students/' + id);
-  }
-
-  updateStudent(student: Student): Promise<void> {
-    return axios.put('/students', student);
+  getANews(id: number): Promise<Artikkel> {
+    return axios.get('/artikkel/' + id);
   }
 }
-export let studentService = new StudentService();
+
+export let newsService = new NewsService();

@@ -4,6 +4,10 @@ import * as React from 'react';
 import { Component } from 'react-simplified';
 import { Alert } from '../src/widgets.js';
 import { shallow, mount } from 'enzyme';
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+configure({ adapter: new Adapter() });
 
 describe('Alert tests', () => {
   const wrapper = shallow(<Alert />);
