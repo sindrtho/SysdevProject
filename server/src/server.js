@@ -1,15 +1,18 @@
 // @flow
 /* eslint eqeqeq: "off" */
 
-let express = require("express");
-let bodyParser = require("body-parser");
-let path = require("path");
-let url = require("url");
-let app = express();
-let fs = require("fs");
-let apiRoutes = express.Router();
-let mysql = require("mysql");
-let NyhetsDao = require('./dao/NyhetsDao.js');
+import path from 'path';
+var express = require("express");
+var bodyParser = require("body-parser");
+var url = require("url");
+var app = express();
+var fs = require("fs");
+var apiRoutes = express.Router();
+var mysql = require("mysql");
+var NyhetsDao = require('./dao/NyhetsDao.js');
+
+type Request = express$Request;
+type Response = express$Response;
 
 var pool = mysql.createPool({
     connectionLimit: 2,
@@ -20,24 +23,10 @@ var pool = mysql.createPool({
     debug: false
 });
 
-type Request = express$Request;
-type Response = express$Response;
-
 const nyhetsdao = new NyhetsDao(pool);
 
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', '*');
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//     );
-//     if(req.method === 'OPTIONS') {
-//         res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT');
-//         return res.status(200).json({});
-//     }
-//     next();
-// });
-const public_path = path.join(__dirname, '/../Project-Frontend/public');
+const public_path = path.join(__dirname, '/../../client/public');
+
 app.use(express.static(public_path));
 app.use(express.json());
 
@@ -88,4 +77,4 @@ app.delete("/artikkel/:id", (req: Request, res: Response) => {
     return true;
 });
 
-let server = app.listen(8080);
+let server = app.listen(3000);

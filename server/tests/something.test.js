@@ -104,7 +104,7 @@ test("Edit that news", done => {
 });
 
 test("Delete those news", done => {
-    newsdao.deleteNews(2, (status, data) => {
+    newsdao.deleteNews('2', (status, data) => {
        expect(data.affectedRows).toBe(1);
        done();
    });
