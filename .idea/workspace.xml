@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af67d1d4-eda7-4fc9-a8c2-c59897cac0e0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/dao/NyhetsDao.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/dao/NyhetsDao.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/tests/something.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/tests/something.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing.sh" beforeDir="false" afterPath="$PROJECT_DIR$/testing.sh" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,14 +30,16 @@
         <counts>
           <entry key="js" value="1008" />
           <entry key="json" value="122" />
-          <entry key="yml" value="37" />
+          <entry key="sh" value="98" />
+          <entry key="yml" value="51" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="122" />
           <entry key="JavaScript" value="1008" />
-          <entry key="YAML" value="37" />
+          <entry key="PLAIN_TEXT" value="98" />
+          <entry key="YAML" value="51" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -55,6 +52,7 @@
           <entry key="js" value="25" />
           <entry key="json" value="7" />
           <entry key="npmrc" value="1" />
+          <entry key="sh" value="1" />
           <entry key="sql" value="1" />
           <entry key="yml" value="1" />
         </counts>
@@ -64,7 +62,7 @@
           <entry key="DBN-SQL" value="1" />
           <entry key="JSON" value="7" />
           <entry key="JavaScript" value="25" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="PLAIN_TEXT" value="2" />
           <entry key="YAML" value="1" />
         </counts>
       </usages-collector>
@@ -183,11 +181,20 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/.travis.yml">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="60">
-                  <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+                  <caret line="4" column="20" lean-forward="true" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/testing.sh">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="105">
+                  <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
                 </state>
               </provider>
             </entry>
@@ -221,6 +228,7 @@
         <option value="$PROJECT_DIR$/client/tests/setup.js" />
         <option value="$PROJECT_DIR$/client/tests/widgets.test.js" />
         <option value="$PROJECT_DIR$/.travis.yml" />
+        <option value="$PROJECT_DIR$/testing.sh" />
       </list>
     </option>
   </component>
@@ -333,12 +341,12 @@
       <workItem from="1540969283470" duration="91000" />
       <workItem from="1540981223994" duration="309000" />
       <workItem from="1541149952173" duration="2763000" />
-      <workItem from="1541331000879" duration="818000" />
+      <workItem from="1541331000879" duration="1257000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11033000" />
+    <option name="totallyTimeSpent" value="11472000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1602" height="873" extended-state="6" />
@@ -496,7 +504,14 @@
     <entry file="file://$PROJECT_DIR$/.travis.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+          <caret line="4" column="20" lean-forward="true" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
         </state>
       </provider>
     </entry>
