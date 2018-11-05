@@ -4,6 +4,7 @@ node_js:
 
 before_install:
   - chmod +x testing.sh
+  - chmod +x deploy.sh
 
 script:
   - ./testing.sh
@@ -13,5 +14,7 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
+  script:
+    - ./deploy.sh
   on:
     branch: master
