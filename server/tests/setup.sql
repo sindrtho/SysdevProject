@@ -31,22 +31,19 @@ CREATE TRIGGER artikkeltid BEFORE INSERT ON artikkel
 CREATE TRIGGER kommentartid BEFORE INSERT ON kommentar
     FOR EACH ROW SET NEW.tidspunkt=concat(current_date(),' ',hour(current_time()),':',minute(current_time()));
 
-INSERT INTO kategori VALUES ('kategori1');
-INSERT INTO kategori VALUES ('kategori2');
-INSERT INTO kategori VALUES ('kategori3');
-INSERT INTO kategori VALUES ('kategori4');
-INSERT INTO kategori VALUES ('kategori5');
-INSERT INTO kategori VALUES ('kategori6');
-INSERT INTO kategori VALUES ('kategori7');
-INSERT INTO kategori VALUES ('kategori8');
+INSERT INTO kategori VALUES ('Sport');
+INSERT INTO kategori VALUES ('Mat');
+INSERT INTO kategori VALUES ('Underholdning');
+INSERT INTO kategori VALUES ('Drap');
+INSERT INTO kategori VALUES ('Utenriks');
 
 
-INSERT INTO artikkel (tittel, bilde, innhold, kategori) VALUES ("Tittel1", "https://www.tasteofhome.com/wp-content/uploads/2017/10/Mint-Patty-Cake_exps140673_CMT2426390C08_17_2b_RMS-1-696x696.jpg", "Innhold1", "kategori1");
-INSERT INTO artikkel (tittel, bilde, innhold, kategori, viktighet) VALUES ("Tittel2", "https://images-gmi-pmc.edge-generalmills.com/087d17eb-500e-4b26-abd1-4f9ffa96a2c6.jpg", "Innhold2", "kategori1", 1);
-INSERT INTO artikkel (tittel, bilde, innhold, kategori) VALUES ("Tittel3", "https://res.cloudinary.com/norgesgruppen/image/upload/c_fill,f_auto,h_574,q_80,w_945/tbagzeanc4qhrnlanzgi.jpg", "Innhold3", "kategori8");
-INSERT INTO artikkel (tittel, bilde, innhold, kategori, viktighet) VALUES ("Tittel4", "https://www.pepsi.com/en-us/uploads/images/social-share.jpg", "Innhold4", "kategori2", 1);
-INSERT INTO artikkel (tittel, bilde, innhold, kategori) VALUES ("Tittel5", "https://ichef.bbci.co.uk/news/660/cpsprodpb/37B5/production/_89716241_thinkstockphotos-523060154.jpg", "Innhold5", "kategori3");
-INSERT INTO artikkel (tittel, bilde, innhold, kategori, viktighet) VALUES ("Tittel6", "http://cdn2.itpro.co.uk/sites/itpro/files/styles/article_main_wide_image/public/images/dir_230/it_photo_115348.jpg?itok=-3lfW5OY", "Innhold6", "kategori1", 1);
+INSERT INTO artikkel (tittel, bilde, innhold, kategori) VALUES ("Tittel1", "https://www.tasteofhome.com/wp-content/uploads/2017/10/Mint-Patty-Cake_exps140673_CMT2426390C08_17_2b_RMS-1-696x696.jpg", "Innhold1", "Sport");
+INSERT INTO artikkel (tittel, bilde, innhold, kategori, viktighet) VALUES ("Tittel2", "https://images-gmi-pmc.edge-generalmills.com/087d17eb-500e-4b26-abd1-4f9ffa96a2c6.jpg", "Innhold2", "Undeholdning", 1);
+INSERT INTO artikkel (tittel, bilde, innhold, kategori) VALUES ("Tittel3", "https://res.cloudinary.com/norgesgruppen/image/upload/c_fill,f_auto,h_574,q_80,w_945/tbagzeanc4qhrnlanzgi.jpg", "Innhold3", "Utenriks");
+INSERT INTO artikkel (tittel, bilde, innhold, kategori, viktighet) VALUES ("Tittel4", "https://www.pepsi.com/en-us/uploads/images/social-share.jpg", "Innhold4", "Sport", 1);
+INSERT INTO artikkel (tittel, bilde, innhold, kategori) VALUES ("Tittel5", "https://ichef.bbci.co.uk/news/660/cpsprodpb/37B5/production/_89716241_thinkstockphotos-523060154.jpg", "Innhold5", "Mat");
+INSERT INTO artikkel (tittel, bilde, innhold, kategori, viktighet) VALUES ("Tittel6", "http://cdn2.itpro.co.uk/sites/itpro/files/styles/article_main_wide_image/public/images/dir_230/it_photo_115348.jpg?itok=-3lfW5OY", "Innhold6", "Sport", 1);
 
 INSERT INTO kommentar (artikkelid, bruker, innhold) VALUES (1, "aaa", "hello");
 INSERT INTO kommentar (artikkelid, bruker, innhold) VALUES (1, "bbb", "good bye");

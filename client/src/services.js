@@ -5,10 +5,16 @@ axios.interceptors.response.use(response => response.data);
 class Artikkel {
   id: number;
   tittel: string;
-  dato: string;
+  tidspunkt: string;
   innhold: string;
   kategori: string;
   bilde: string;
+}
+
+class Kommentar {
+  bruker: string
+  innhold: string
+  tidspunkt: string
 }
 
 class NewsService {
@@ -18,6 +24,22 @@ class NewsService {
 
   getANews(id: number): Promise<Artikkel> {
     return axios.get('/artikkel/' + id);
+  }
+
+  getCategoryNews(kategori: string): Promise<Artikkel[]> {
+    return axios.get('/kategori/' + kategori);
+  }
+
+  getComments(id: number): Promise<Kommentar[]> {
+    return axios.get('/artikkel/' + id + '/comment');
+  }
+
+  addANews(json: Object): Promise<Artikkel> {
+    return axios.post('/artikkel', json);
+  }
+
+  getLatest(): Promise<Artikkel[]> {
+    return axios.get('/latest');
   }
 }
 

@@ -38,9 +38,19 @@ app.get("/artikkel", (req: Request, res: Response) => {
     });
 });
 
+app.get("/kategorier", (req: Request, res: Response) => {
+    nyhetsdao.allCategories((status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //Get all articles from a specific category.
 app.get("/kategori/:kat", (req: Request, res: Response) => {
-    return true;
+    nyhetsdao.getCategory(req.params.kat, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
 });
 
 //Get a specific article.
@@ -51,9 +61,19 @@ app.get("/artikkel/:id", (req: Request, res: Response) => {
     });
 });
 
+//Get the comments for the given article to print them to the screen when the article loads.
+app.get("/artikkel/:id/kommentarer", (req: Request, res: Response) => {
+    nyhetsdao.getComments(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+    });
+});
+
 //Edit a existing article.
-app.post("/artikkel/:tittel", (req: Request, res: Response) => {
-    return true;
+app.post("/artikkel", (req: Request, res: Response) => {
+    nyhetsdao.newNews(req.body, (status, data) => {
+        console.log("Added news");
+    });
 });
 
 //Add a new comment to an article.
@@ -61,12 +81,6 @@ app.put("/artikkel/:id/comment", (req: Request, res: Response) => {
     console.log("Posting comment on article.");
     return true;
 });
-
-//Get the comments for the given article to print them to the screen when the article loads.
-app.get("/artikkel/:id/comment", (req: Request, res: Response) => {
-    return true;
-});
-
 //Add a brand new article for the site.
 app.put("/artikkel/:id", (req: Request, res: Response) => {
     return true;
@@ -75,6 +89,13 @@ app.put("/artikkel/:id", (req: Request, res: Response) => {
 //Delete an article from the site.
 app.delete("/artikkel/:id", (req: Request, res: Response) => {
     return true;
+});
+
+app.get("/latest", (req: Request, res: Response) => {
+    nyhetsdao.getLatestNews((status, data) => {
+        res.status(status);
+        res.json(data);
+    });
 });
 
 let server = app.listen(3000);

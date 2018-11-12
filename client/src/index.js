@@ -1,3 +1,4 @@
+// @flow
 /* eslint eqeqeq: "off" */
 
 import * as React from 'react';
@@ -114,13 +115,6 @@ class NewsList extends Component {
 class News extends Component {
     Case = [];
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: props.match.params.id
-        };
-    }
-
     render() {
         return (
             <div>
@@ -146,25 +140,71 @@ class News extends Component {
     }
 
     mounted() {
-        newsService.getANews(this.state.id)
+        newsService.getANews(this.props.match.params.id)
             .then(e => this.Case = e)
             .catch(err => console.log(err))
     }
+}
 
-    // componentDidMount() {
-    //     console.log(this.state.url);
-    //     fetch(this.state.url, {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type" : "application/json"
-    //         }
-    //     })
-    //         .then(res => res.json())
-    //         .then(res2 => this.setState({results: res2}))
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // }
+class LiveFeed extends Component {
+    Cases = []
+
+    render() {
+        return (
+            <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
+                <ol className="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                    {
+                        this.Cases.slice(1).map((e, index) => {
+                            return(
+                                <li key={index} data-target="#carouselExampleIndicators" data-slide-to={index + 1}></li>
+                            );
+                        })
+                    }
+                </ol>
+                <div className="carousel-inner">
+                    {
+                        this.Cases.slice(0, 1).map(e => {
+                            return(
+                                <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
+                                    <div className="carousel-item active">
+                                        <h2>{e.tittel}</h2>
+                                        <p>{e.tidspunkt}</p>
+                                    </div>
+                                </NavLink>
+                            );
+                        })
+                    }
+                    {
+                        this.Cases.slice(1).map(e => {
+                            return (
+                                <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
+                                    <div className="carousel-item">
+                                        <h2>{e.tittel}</h2>
+                                        <p>{e.tidspunkt}</p>
+                                    </div>
+                                </NavLink>
+                            );
+                        })
+                    }
+                </div>
+                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Previous</span>
+                </a>
+                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Next</span>
+                </a>
+            </div>
+        );
+    }
+
+    mounted() {
+        newsService.getLatest()
+            .then(e => this.Cases = e)
+            .catch(err => console.log(err))
+    }
 }
 
 const root = document.getElementById('root');
@@ -174,7 +214,8 @@ if (root)
         <HashRouter>
             <div>
                 <div id="navigationbar">
-                   <Menu/>
+                    <Menu/>
+                    <LiveFeed/>
                 </div>
                 <div id="main">
                     <Route exact path="/" component={NewsList}/>
