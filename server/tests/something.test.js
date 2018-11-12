@@ -47,10 +47,10 @@ test("Getting all the important news.", done => {
 });
 
 test("Getting just some of the news", done => {
-    newsdao.getCategory('kategori1', (status, data) => {
+    newsdao.getCategory('Sport', (status, data) => {
         expect(data.length).toBe(3);
         expect(data[0].id).toBe(6);
-        expect(data[1].innhold).toBe('Innhold2');
+        expect(data[1].innhold).toBe('Innhold6');
         done();
     });
 });
@@ -77,27 +77,27 @@ test("Getting those comments", done => {
 });
 
 test("Add that news", done => {
-    let newnews = {'tittel':'Ny tittel', 'bilde':'http://cdn2.itpro.co.uk/sites/itpro/files/styles/article_main_wide_image/public/images/dir_230/it_photo_115348.jpg?itok=-3lfW5OY', 'innhold':'Nytt innhold', 'kategori':'kategori4', 'viktighet':'1'};
+    let newnews = {'tittel':'Ny tittel', 'bilde':'http://cdn2.itpro.co.uk/sites/itpro/files/styles/article_main_wide_image/public/images/dir_230/it_photo_115348.jpg?itok=-3lfW5OY', 'innhold':'Nytt innhold', 'kategori':'Mat', 'viktighet':'1'};
     newsdao.newNews(newnews, () => {
         console.log("Table updated");
     });
 
-    newsdao.getCategory('kategori4', (status, data) => {
-        expect(data.length).toBe(1);
+    newsdao.getCategory('Mat', (status, data) => {
+        expect(data.length).toBe(2);
         expect(data[0].id).toBe(7);
-        expect(data[0].innhold).toBe('Nytt innhold');
+        expect(data[0].innhold).toBe('Ny tittel');
         done();
     });
 });
 
 test("Edit that news", done => {
-    let params = {'tittel':'nytittel', 'bilde':'http://cdn2.itpro.co.uk/sites/itpro/files/styles/article_main_wide_image/public/images/dir_230/it_photo_115348.jpg?itok=-3lfW5OY', 'innhold':'nyinnhold', 'kategori':'kategori6', 'viktighet':'2', 'id':2};
+    let params = {'tittel':'nytittel', 'bilde':'http://cdn2.itpro.co.uk/sites/itpro/files/styles/article_main_wide_image/public/images/dir_230/it_photo_115348.jpg?itok=-3lfW5OY', 'innhold':'nyinnhold', 'kategori':'Drap', 'viktighet':'2', 'id':2};
     newsdao.editNews(params, () => {
         console.log("Editing done");
         newsdao.getANews(2, (status, data) => {
             expect(data[0].innhold).toBe('nyinnhold');
             expect(data[0].tittel).toBe('nytittel');
-            expect(data[0].kategori).toBe('kategori6');
+            expect(data[0].kategori).toBe('Drap');
             done();
         });
     });
