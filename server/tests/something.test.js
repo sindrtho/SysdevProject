@@ -50,7 +50,7 @@ test("Getting just some of the news", done => {
     newsdao.getCategory('Sport', (status, data) => {
         expect(data.length).toBe(3);
         expect(data[0].id).toBe(6);
-        expect(data[1].innhold).toBe('Innhold6');
+        expect(data[1].innhold).toBe('Innhold4');
         done();
     });
 });
@@ -85,7 +85,7 @@ test("Add that news", done => {
     newsdao.getCategory('Mat', (status, data) => {
         expect(data.length).toBe(2);
         expect(data[0].id).toBe(7);
-        expect(data[0].innhold).toBe('Ny tittel');
+        expect(data[0].innhold).toBe('Nytt innhold');
         done();
     });
 });
