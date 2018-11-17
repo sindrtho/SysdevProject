@@ -53,7 +53,7 @@ module.exports = class NyhetsDao extends Dao{
     }
 
     getLatestNews(callback: Function) {
-        super.query("select id, tittel, bilde, innhold, kategori, tidspunkt from artikkel WHERE datediff(current_date(), tidspunkt) <= 1 AND viktighet = 1 ORDER BY tidspunkt;",
+        super.query("select id, tittel, bilde, innhold, kategori, tidspunkt from artikkel WHERE datediff(current_date(), tidspunkt) <= 1 AND viktighet = 1 ORDER BY tidspunkt DESC;",
             [],
             callback);
     }

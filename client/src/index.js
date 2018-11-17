@@ -1,3 +1,4 @@
+// @flow
 /* eslint eqeqeq: "off" */
 
 import * as React from 'react';
@@ -18,27 +19,39 @@ class Menu extends Component {
                     <tr>
                         <td>
                             <NavLink activeStyle={{color: 'darkblue'}} to={'/'}>
-                                <img className="navbar-brand" src="logo.jpg"/>
+                                <div className="logocontainer">
+                                    <img className="navbar-brand" src="logo.jpg"/>
+                                </div>
                             </NavLink>
                         </td>
-                        <td>
-                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/kategori1'}>
-                                <h3 className="navbar-brand">Kategori 1</h3>
+                        <td className="linkcolumn">
+                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/sport'}>
+                                <h4 className="navbar-brand navbarlink">Sport</h4>
                             </NavLink>
                         </td>
-                        <td>
-                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/kategori3'}>
-                                <h3 className="navbar-brand">Kategori 3</h3>
+                        <td className="linkcolumn">
+                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/underholdning'}>
+                                <h4 className="navbar-brand navbarlink">Underholdning</h4>
                             </NavLink>
                         </td>
-                        <td>
-                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/kategori3'}>
-                                <h3 className="navbar-brand">Kategori 3</h3>
+                        <td className="linkcolumn">
+                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/drap'}>
+                                <h4 className="navbar-brand navbarlink">Drap</h4>
                             </NavLink>
                         </td>
-                        <td>
-                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/kategori8'}>
-                                <h3 className="navbar-brand">Kategori 8</h3>
+                        <td className="linkcolumn">
+                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/utenriks'}>
+                                <h4 className="navbar-brand navbarlink">Utenriks</h4>
+                            </NavLink>
+                        </td>
+                        <td className="linkcolumn">
+                            <NavLink activeStyle={{color: 'darkblue'}} to={'/kategori/mat'}>
+                                <h4 className="navbar-brand navbarlink">Mat</h4>
+                            </NavLink>
+                        </td>
+                        <td className="linkcolumn">
+                            <NavLink activeStyle={{color: 'darkblue'}} to={'/ny/artikkel'}>
+                                <h4 className="navbar-brand navbarlink">Ny Artikkel</h4>
                             </NavLink>
                         </td>
                     </tr>
@@ -90,10 +103,10 @@ class NewsList extends Component {
 
     render() {
         return (
-            <ul className="list-of-news">
+            <ul className="list-of-news list-group">
                 {
                     this.Cases.map(e => {
-                        return (<li>
+                        return (<li className="list-group-item">
                             <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
                                 <NewsCase tittel={e.tittel} kategori={e.kategori} dato={e.tidspunkt} imgurl={e.bilde}/>
                             </NavLink>
@@ -107,6 +120,35 @@ class NewsList extends Component {
     mounted() {
         newsService.getNews()
             .then(e => this.Cases = e)
+            .catch(err => console.log(err))
+    }
+}
+
+class CategoryLimitedNews extends Component {
+    Cases = [];
+
+    render() {
+        return (
+            <ul className="list-of-news list-group">
+                {
+                    this.Cases.map(e => {
+                        return (<li className="list-group-item">
+                            <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
+                                <NewsCase tittel={e.tittel} kategori={e.kategori} dato={e.tidspunkt} imgurl={e.bilde}/>
+                            </NavLink>
+                        </li>);
+                    })
+                }
+            </ul>
+        );
+    }
+
+    mounted() {
+        newsService.getCategoryNews(this.props.match.params.kategori)
+            .then(e => {
+                this.Cases = e;
+                console.log(this.props.match.params.kategori);
+            })
             .catch(err => console.log(err))
     }
 }
@@ -165,24 +207,24 @@ class LiveFeed extends Component {
                     {
                         this.Cases.slice(0, 1).map(e => {
                             return(
-                                <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
-                                    <div className="carousel-item active">
+                                <div className="carousel-item active">
+                                    <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
                                         <h2>{e.tittel}</h2>
                                         <p>{e.tidspunkt}</p>
-                                    </div>
-                                </NavLink>
+                                    </NavLink>
+                                </div>
                             );
                         })
                     }
                     {
                         this.Cases.slice(1).map(e => {
                             return (
-                                <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
-                                    <div className="carousel-item">
+                                <div className="carousel-item">
+                                    <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
                                         <h2>{e.tittel}</h2>
                                         <p>{e.tidspunkt}</p>
-                                    </div>
-                                </NavLink>
+                                    </NavLink>
+                                </div>
                             );
                         })
                     }
@@ -219,6 +261,7 @@ if (root)
                 <div id="main">
                     <Route exact path="/" component={NewsList}/>
                     <Route exact path="/artikkel/:id" component={News}/>
+                    <Route exact path="/kategori/:kategori" component={CategoryLimitedNews}/>
                 </div>
             </div>
         </HashRouter>,
