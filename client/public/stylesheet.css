@@ -7,9 +7,11 @@ img {
 .imgcontainer {
     position: relative;
     width: 400px;
+    height: 400px;
     float: left;
     position: relative;
     background-color: red;
+    overflow: hidden;
 }
 
 .container {
@@ -42,5 +44,32 @@ img {
 #navigationbar {
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 5;
+}
+
+.navbarlink {
+    font-size: 45px;
+    margin: auto;
+}
+
+#main {
+    width: 65%;
+    align-self: center;
+    margin: auto;
+}
+
+.list-of-news {
+    list-style: none;
+}
+
+.linkcolumn {
+    margin: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.logocontainer {
+    width: 150px;
 }
