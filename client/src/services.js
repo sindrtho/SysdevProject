@@ -2,7 +2,7 @@
 import axios from 'axios';
 axios.interceptors.response.use(response => response.data);
 
-class Artikkel {
+export class Artikkel {
   id: number;
   tittel: string;
   tidspunkt: string;
@@ -11,7 +11,7 @@ class Artikkel {
   bilde: string;
 }
 
-class Kommentar {
+export class Kommentar {
   bruker: string
   innhold: string
   tidspunkt: string

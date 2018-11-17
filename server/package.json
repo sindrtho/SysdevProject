@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon --exec babel-node src/server.js",
-    "test": "jest --forceExit"
+    "test": "jest --forceExit",
+    "flow": "flow"
   },
   "dependencies": {
     "express": "^4.16.4",
@@ -23,6 +24,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "cross-env": "^5.2.0",
+    "flow-bin": "^0.86.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.4"
   }
