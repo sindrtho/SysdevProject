@@ -6,7 +6,7 @@ import { Component } from 'react-simplified';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import {Card} from './widgets';
-import {newsService} from './services';
+import {Artikkel, Kategori, newsService} from './services';
 
 let history = [];
 
@@ -50,7 +50,7 @@ class Menu extends Component {
                             </NavLink>
                         </td>
                         <td className="linkcolumn">
-                            <NavLink activeStyle={{color: 'darkblue'}} to={'/ny/artikkel'}>
+                            <NavLink activeStyle={{color: 'darkblue'}} to={'/ny'}>
                                 <h4 className="navbar-brand navbarlink">Ny Artikkel</h4>
                             </NavLink>
                         </td>
@@ -62,7 +62,7 @@ class Menu extends Component {
     }
 }
 
-class NewsCase extends Component {
+class NewsCase extends Component<{tittel: string, kategori: string, dato: string, imgurl: string}> {
     render () {
         return (
             <div className="card">
@@ -83,23 +83,8 @@ class NewsCase extends Component {
     };
 }
 
-class NewsFeed extends Component {
-    render() {
-        return (
-            <div className="marquee">
-                <img id="livefeedSymbol" src="livefeed.png"/>
-                <div className="midmarquee">
-                    <div className="innermarquee">
-                        <p id="livefeedTitler"><a href='./artikkel_EM.html'>LIVE: BURN</a></p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
-
 class NewsList extends Component {
-    Cases = [];
+    Cases: Artikkel[] = [];
 
     render() {
         return (
@@ -124,8 +109,8 @@ class NewsList extends Component {
     }
 }
 
-class CategoryLimitedNews extends Component {
-    Cases = [];
+class CategoryLimitedNews extends Component<{match: {params: {kategori: string}}}> {
+    Cases: Artikkel[] = [];
 
     render() {
         return (
@@ -153,29 +138,23 @@ class CategoryLimitedNews extends Component {
     }
 }
 
-class News extends Component {
-    Case = [];
+class News extends Component<{match: {params: {id: number}}}> {
+    Case: Artikkel;
 
     render() {
         return (
             <div>
-                {
-                    this.Case.map(e => {
-                        return(
-                            <div>
-                                <h1>{e.tittel}</h1>
-                                <div>
-                                    <div className="imgcontainer">
-                                        <img src={e.bilde}/>
-                                    </div>
-                                    <div className="content">
-                                        <p>{e.innhold}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })
-                }
+                <div>
+                    <h1>{this.Case.tittel}</h1>
+                    <div>
+                        <div className="imgcontainer">
+                            <img src={this.Case.bilde}/>
+                        </div>
+                        <div className="content">
+                            <p>{this.Case.innhold}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -184,6 +163,79 @@ class News extends Component {
         newsService.getANews(this.props.match.params.id)
             .then(e => this.Case = e)
             .catch(err => console.log(err))
+    }
+}
+
+class NewNewsView extends Component {
+    categories: Kategori[] = [];
+    myNewCase: Artikkel[] = [];
+
+    render() {
+        return (
+            <div>
+                <form onSubmit={validation}>
+                    <div className="form-groug">
+                        <label htmlFor="newNewsCase">Tittel</label>
+                        <input type="text" className="form-control" id="titleinput" placeholder="Tittel" required/>
+                    </div>
+                    <div className="form-groug">
+                        <label htmlFor="newNewsCase">Bilde</label>
+                        <input type="text" className="form-control" id="imageinput" placeholder="Bilde URL" required/>
+                    </div>
+                    <div className="form-groug">
+                        <label htmlFor="newNewsCase">Artikkel Innhold</label>
+                        <textarea className="form-control" id="contentinput" placeholder="Innhold" rows="15" required/>
+                    </div>
+                    <div className="form-groug">
+                        <label htmlFor="newNewsCase">Kategori</label>
+                        <select className="form-control" id="categorychoser">
+                            {
+                                this.categories.map(e => {
+                                    return (
+                                        <option>{e.navn}</option>
+                                    );
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="form-check">
+                        <input type="checkbox" className="form-check-input-lg" value="" id="importanceinput"/>
+                        <label className="form-check-label" htmlFor="newNewsCase">Viktig</label>
+                    </div>
+                    <button className="btn btn-primary" type="submit">Lagre</button>
+                </form>
+            </div>
+        );
+
+        function validation() {
+            let newCase: Object = {};
+
+            newCase.tittel = (document.getElementById('titleinput'): any).value;
+            newCase.innhold = (document.getElementById('contentinput'):any ).value;
+            newCase.bilde = (document.getElementById('imageinput'):any ).value;
+            if((document.getElementById('importanceinput'): any).checked) {
+                newCase.viktighet = 1;
+            } else {
+                newCase.viktighet = 2;
+            }
+            newCase.kategori = (document.getElementById('categorychoser'):any ).value;
+
+            console.log(JSON.stringify(newCase));
+
+            newsService.addANews(newCase)
+                .then(a =>
+                    newsService.getLatest()
+                        .then(e => history.push('/artikkel/' + e[0].id))
+                        .catch(err => console.log(err.toString())
+                        )
+                )
+        }
+    }
+
+    mounted() {
+        newsService.getCategories()
+            .then(e => this.categories = e)
+            .catch(err => console.log(err.toString()))
     }
 }
 
@@ -262,6 +314,8 @@ if (root)
                     <Route exact path="/" component={NewsList}/>
                     <Route exact path="/artikkel/:id" component={News}/>
                     <Route exact path="/kategori/:kategori" component={CategoryLimitedNews}/>
+                    <Route exact path="/ny" component={NewNewsView}/>
+                    <Route exact path="/rediger/:id" component={NewNewsView}/>
                 </div>
             </div>
         </HashRouter>,
