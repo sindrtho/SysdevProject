@@ -64,18 +64,6 @@ test("Getting only one news", done => {
    });
 });
 
-test("Getting those comments", done => {
-    newsdao.getComments(6, (status, data) => {
-        expect(data.length).toBe(3);
-        data.map(e => {
-           expect(e.artikkelId).toBe(6);
-        });
-        expect(data[0].innhold).toBe('good bye');
-        expect(data[1].bruker).toBe('bbb');
-        done();
-    });
-});
-
 test("Add that news", done => {
     let newnews = {'tittel':'Ny tittel', 'bilde':'http://cdn2.itpro.co.uk/sites/itpro/files/styles/article_main_wide_image/public/images/dir_230/it_photo_115348.jpg?itok=-3lfW5OY', 'innhold':'Nytt innhold', 'kategori':'Mat', 'viktighet':'1'};
     newsdao.newNews(newnews, () => {

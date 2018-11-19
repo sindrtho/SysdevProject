@@ -2,13 +2,10 @@
 /* eslint eqeqeq: "off" */
 
 import * as React from 'react';
-import { Component } from 'react-simplified';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import {Card} from './widgets';
-import {Artikkel, Kategori, newsService} from './services';
-import {Menu, LiveFeed} from './commonComponents';
-import {NewsList, CategoryLimitedNews, NewNewsView, News} from "./views";
+import {Footer, Menu, LiveFeed} from './commonComponents';
+import {EditNewsView, NewsList, CategoryLimitedNews, NewNewsView, News} from "./views";
 
 const root = document.getElementById('root');
 
@@ -25,8 +22,9 @@ if (root)
                     <Route exact path="/artikkel/:id" component={News}/>
                     <Route exact path="/kategori/:kategori" component={CategoryLimitedNews}/>
                     <Route exact path="/ny" component={NewNewsView}/>
-                    <Route exact path="/rediger/:id" component={NewNewsView}/>
+                    <Route exact path="/rediger/:id" component={EditNewsView}/>
                 </div>
+                <Footer/>
             </div>
         </HashRouter>,
         root

@@ -29,22 +29,35 @@ export class NewsCase extends Component<{tittel: string, kategori: string, dato:
     };
 }
 
+export class ListOfNews extends Component<{Cases: Artikkel[]}> {
+    render() {
+        return (
+            <ul className="list-of-news list-group">
+                {
+                    this.props.Cases.map(e => {
+                        return (
+                            <li className="list-group-item">
+                                <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
+                                    <NewsCase tittel={e.tittel} kategori={e.kategori} dato={e.tidspunkt} imgurl={e.bilde}/>
+                                </NavLink>
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+        )
+    }
+}
+
 export class NewsList extends Component {
     Cases: Artikkel[] = [];
 
     render() {
         return (
-            <ul className="list-of-news list-group">
-                {
-                    this.Cases.map(e => {
-                        return (<li className="list-group-item">
-                            <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
-                                <NewsCase tittel={e.tittel} kategori={e.kategori} dato={e.tidspunkt} imgurl={e.bilde}/>
-                            </NavLink>
-                        </li>);
-                    })
-                }
-            </ul>
+            <div>
+                <h1>Alle Nyheter</h1>
+                <ListOfNews Cases={this.Cases}></ListOfNews>
+            </div>
         );
     }
 
@@ -60,17 +73,10 @@ export class CategoryLimitedNews extends Component<{match: {params: {kategori: s
 
     render() {
         return (
-            <ul className="list-of-news list-group">
-                {
-                    this.Cases.map(e => {
-                        return (<li className="list-group-item">
-                            <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
-                                <NewsCase tittel={e.tittel} kategori={e.kategori} dato={e.tidspunkt} imgurl={e.bilde}/>
-                            </NavLink>
-                        </li>);
-                    })
-                }
-            </ul>
+            <div>
+                <h1>{this.props.match.params.kategori.toUpperCase()}</h1>
+                <ListOfNews Cases={this.Cases}></ListOfNews>
+            </div>
         );
     }
 
@@ -94,15 +100,25 @@ export class News extends Component<{match: {params: {id: number}}}> {
                     this.Case.map(e => {
                         return (
                             <div>
-                                <h1>{e.tittel}</h1>
-                                <div>
-                                    <div className="imgcontainer">
-                                        <img src={e.bilde}/>
-                                    </div>
-                                    <div className="content">
-                                        <p>{e.innhold}</p>
+                                <div className="articlecontainer_hashincase">
+                                    <h1>{e.tittel}</h1>
+                                    <img src={e.bilde}/>
+                                    <div className={"tid_og_kategori"}>
+                                        <p>{e.tidspunkt}</p>
+                                        <p>{e.kategori}</p>
                                     </div>
                                 </div>
+                                    <div className="content">
+                                        {
+                                            e.innhold.split('\n').filter(e => e != '').map(a => {
+                                                return <p className="content_text">{a}</p>
+                                            })
+                                        }
+
+                                    </div>
+                                    <NavLink activeStyle={{color: 'darkblue'}} to={'/rediger/' + e.id}>
+                                        <button className="editbutton">REDIGER</button>
+                                    </NavLink>
                             </div>
                         )
                     })
@@ -173,20 +189,104 @@ export class NewNewsView extends Component<{history: string[]}> {
         }
         newCase.kategori = (document.getElementById('categorychoser'):any ).value;
 
-        console.log(JSON.stringify(newCase));
-
         newsService.addANews(newCase)
-            .then(a =>
-                newsService.getLatest()
-                    .then(e => this.props.history.push('/artikkel/' + e[0].id))
-                    .catch(err => console.log(err.toString())
-                    )
-            )
+            .then(a => {
+                    console.log(a);
+                    this.props.history.push('/artikkel/' + a.insertId);
+                })
     }
 
     mounted() {
         newsService.getCategories()
             .then(e => this.categories = e)
+            .catch(err => console.log(err.toString()))
+    }
+}
+
+export class EditNewsView extends Component<{match: {params: {id: number}}, history: string[]}> {
+    Case: Artikkel[] = [];
+    categories: Kategori[] = [];
+
+    render() {
+        if(this.Case[0] == null)
+            return null;
+        return (
+            <div>
+                <form onSubmit={this.validation}>
+                    <div className="form-groug">
+                        <label htmlFor="newNewsCase">Tittel</label>
+                        <input name="tittel" onChange={this.handle} type="text" className="form-control" id="titleinput" placeholder="Tittel" value={this.Case[0].tittel} required/>
+                    </div>
+                    <div className="form-groug">
+                        <label htmlFor="newNewsCase">Bilde</label>
+                        <input name="bilde" onChange={this.handle} type="text" className="form-control" id="imageinput" placeholder="Bilde URL" value={this.Case[0].bilde} required/>
+                    </div>
+                    <div className="form-groug">
+                        <label htmlFor="newNewsCase">Artikkel Innhold</label>
+                        <textarea name="innhold" onChange={this.handle} className="form-control" id="contentinput" placeholder="Innhold" rows="15" value={this.Case[0].innhold} required/>
+                    </div>
+                    <div className="form-groug">
+                        <label htmlFor="newNewsCase">Kategori</label>
+                        <select name="kategori" onChange={this.handle} className="form-control" id="categorychoser" value={this.Case[0].kategori}>
+                            {
+                                this.categories.map(e => {
+                                    return (
+                                        <option>{e.navn}</option>
+                                    );
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="form-check">
+                        <input type="checkbox" className="form-check-input-lg" value="" id="importanceinput"/>
+                        <label name="viktighet" className="form-check-label" htmlFor="newNewsCase">Viktig</label>
+                    </div>
+                    <button className="btn btn-primary" type="submit">Lagre</button>
+                </form>
+                <button onClick={this.delete} className="deletebutton">DELETE</button>
+            </div>
+        );
+    }
+
+    handle(event: { target: { name: string, value: string } }) {
+        this.Case[0][event.target.name] = event.target.value;
+    }
+
+    mounted() {
+        newsService.getCategories()
+            .then(e => this.categories = e)
+            .catch(err => console.log(err.toString()))
+        newsService.getANews(this.props.match.params.id)
+            .then(e => {
+                this.Case = e;
+                console.log(e);
+            })
+            .catch(err => console.log(err.toString()))
+    }
+
+    validation(event: Event) {
+        event.preventDefault();
+        let newCase: Object = {};
+
+        newCase.id = this.props.match.params.id;
+        newCase.tittel = (document.getElementById('titleinput'): any).value;
+        newCase.innhold = (document.getElementById('contentinput'):any ).value;
+        newCase.bilde = (document.getElementById('imageinput'):any ).value;
+        if((document.getElementById('importanceinput'): any).checked) {
+            newCase.viktighet = 1;
+        } else {
+            newCase.viktighet = 2;
+        }
+        newCase.kategori = (document.getElementById('categorychoser'):any ).value;
+
+        newsService.editNews(newCase)
+            .then(() => this.props.history.push('/artikkel/' + this.props.match.params.id))
+            .catch(err => console.log(err.toString()))
+    }
+
+    delete() {
+        newsService.deleteNews(this.props.match.params.id)
+            .then(e => this.props.history.push('/'))
             .catch(err => console.log(err.toString()))
     }
 }
