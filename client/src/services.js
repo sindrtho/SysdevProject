@@ -26,7 +26,7 @@ class NewsService {
     return axios.get('/artikkel');
   }
 
-  getANews(id: number): Promise<Artikkel> {
+  getANews(id: number): Promise<Artikkel[]> {
     return axios.get('/artikkel/' + id);
   }
 

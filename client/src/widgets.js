@@ -6,11 +6,12 @@ import { Component } from 'react-simplified';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 
-export class Card extends Component<{title: string}> {
+export class Card extends Component<{title: string, children: React.Node}> {
     render() {
         return(
             <div className="card">
-                <h5>{this.props.title}</h5>
+                <h1>{this.props.title}</h1>
+                <div>{this.props.children}</div>
             </div>
         );
     }

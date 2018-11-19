@@ -96,3 +96,14 @@ table {
 a {
     color: black;
 }
+
+.flexbox {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+ul {
+    justify-content: space-evenly;
+    width: 100%;
+}

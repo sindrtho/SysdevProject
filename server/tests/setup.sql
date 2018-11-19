@@ -10,7 +10,7 @@ CREATE TABLE artikkel (
     id INT PRIMARY KEY AUTO_INCREMENT,
     tittel VARCHAR(30) NOT NULL,
     bilde VARCHAR(1024) NOT NULL,
-    innhold VARCHAR(1024) NOT NULL,
+    innhold VARCHAR(10240) NOT NULL,
     kategori VARCHAR(30) NOT NULL,
     viktighet INT DEFAULT 2,
     tidspunkt VARCHAR(20),
