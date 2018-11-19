@@ -17,6 +17,10 @@ export class Kommentar {
   tidspunkt: string
 }
 
+export class Kategori {
+  navn: string
+}
+
 class NewsService {
   getNews(): Promise<Artikkel[]> {
     return axios.get('/artikkel');
@@ -40,6 +44,10 @@ class NewsService {
 
   getLatest(): Promise<Artikkel[]> {
     return axios.get('/latest');
+  }
+
+  getCategories(): Promise<Kategori[]> {
+    return axios.get('/kategorier');
   }
 }
 

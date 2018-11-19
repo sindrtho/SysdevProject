@@ -53,9 +53,11 @@ img {
 }
 
 #main {
-    width: 65%;
+    width: 75%;
+    min-height: 100%;
     align-self: center;
     margin: auto;
+    background-color: white;
 }
 
 .list-of-news {
@@ -72,4 +74,25 @@ table {
 
 .logocontainer {
     width: 150px;
+}
+
+#titleinput {
+    width: 95%;
+}
+
+#imgurl {
+    width: 95%;
+}
+
+#content {
+    width: 95%;
+    height: 500px;
+}
+
+#root {
+    min-height: 100%;
+}
+
+a {
+    color: black;
 }
