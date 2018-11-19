@@ -72,6 +72,8 @@ app.get("/artikkel/:id/kommentarer", (req: Request, res: Response) => {
 //Edit a existing article.
 app.post("/artikkel", (req: Request, res: Response) => {
     nyhetsdao.newNews(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
         console.log("Added news");
     });
 });
