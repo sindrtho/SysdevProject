@@ -38,6 +38,7 @@ app.get("/artikkel", (req: Request, res: Response) => {
     });
 });
 
+//Get all categories
 app.get("/kategorier", (req: Request, res: Response) => {
     nyhetsdao.allCategories((status, data) => {
         res.status(status);
@@ -88,6 +89,7 @@ app.delete("/artikkel/:id", (req: Request, res: Response) => {
     })
 });
 
+//Get the latest news. Within the last 24 hours.
 app.get("/latest", (req: Request, res: Response) => {
     nyhetsdao.getLatestNews((status, data) => {
         res.status(status);

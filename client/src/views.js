@@ -36,7 +36,7 @@ export class ListOfNews extends Component<{Cases: Artikkel[]}> {
                 {
                     this.props.Cases.map(e => {
                         return (
-                            <li className="list-group-item">
+                            <li className="list-group-item" key={e.id}>
                                 <NavLink activeStyle={{ color: 'darkblue' }} to={'/artikkel/' + e.id}>
                                     <NewsCase tittel={e.tittel} kategori={e.kategori} dato={e.tidspunkt} imgurl={e.bilde}/>
                                 </NavLink>
