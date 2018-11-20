@@ -9,14 +9,8 @@ module.exports = class NyhetsDao extends Dao{
     }
 
     getANews(id: string | number, callback: Function) {
-        super.query("SELECT id, tittel, bilde, innhold, kategori, tidspunkt FROM artikkel WHERE id=?",
+        super.query("SELECT id, tittel, bilde, innhold, kategori, tidspunkt, viktighet FROM artikkel WHERE id=?",
             [id],
-            callback);
-    }
-
-    getComments(artikkelId: string | number, callback: Function) {
-        super.query("SELECT artikkelId, bruker, innhold, tidspunkt FROM kommentar WHERE artikkelid=?",
-            [artikkelId],
             callback);
     }
 
@@ -47,13 +41,11 @@ module.exports = class NyhetsDao extends Dao{
     }
 
     deleteNews(id: string | number, callback: Function) {
-        super.query("DELETE FROM kommentar WHERE artikkelid=?", [id], () => {console.log("Deleted comments.");
-            super.query("DELETE FROM artikkel WHERE id=?", [id], callback);
-        });
+        super.query("DELETE FROM artikkel WHERE id=?", [id], callback);
     }
 
     getLatestNews(callback: Function) {
-        super.query("select id, tittel, bilde, innhold, kategori, tidspunkt from artikkel WHERE datediff(current_date(), tidspunkt) <= 1 AND viktighet = 1 ORDER BY id DESC;",
+        super.query("select id, tittel, bilde, innhold, kategori, tidspunkt from artikkel WHERE datediff(current_date(), tidspunkt) <= 1 ORDER BY id DESC;",
             [],
             callback);
     }

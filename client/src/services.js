@@ -9,6 +9,9 @@ export class Artikkel {
   innhold: string;
   kategori: string;
   bilde: string;
+  viktighet: string;
+  $key: string;
+  $value: string;
 }
 
 export class Kommentar {
@@ -38,7 +41,7 @@ class NewsService {
     return axios.get('/artikkel/' + id + '/comment');
   }
 
-  addANews(json: Object): Promise<Artikkel> {
+  addANews(json: Object): Promise<Object> {
     return axios.post('/artikkel', json);
   }
 
@@ -48,6 +51,14 @@ class NewsService {
 
   getCategories(): Promise<Kategori[]> {
     return axios.get('/kategorier');
+  }
+
+  editNews(json: Object): Promise<Artikkel[]> {
+    return axios.put('/artikkel/' + json.id, json);
+  }
+
+  deleteNews(id: number): Promise<Object> {
+    return axios.delete('/artikkel/' + id);
   }
 }
 

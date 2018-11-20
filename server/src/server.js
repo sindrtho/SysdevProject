@@ -38,6 +38,7 @@ app.get("/artikkel", (req: Request, res: Response) => {
     });
 });
 
+//Get all categories
 app.get("/kategorier", (req: Request, res: Response) => {
     nyhetsdao.allCategories((status, data) => {
         res.status(status);
@@ -61,15 +62,7 @@ app.get("/artikkel/:id", (req: Request, res: Response) => {
     });
 });
 
-//Get the comments for the given article to print them to the screen when the article loads.
-app.get("/artikkel/:id/kommentarer", (req: Request, res: Response) => {
-    nyhetsdao.getComments(req.params.id, (status, data) => {
-        res.status(status);
-        res.json(data);
-    });
-});
-
-//Edit a existing article.
+//Add a brand new article for the site.
 app.post("/artikkel", (req: Request, res: Response) => {
     nyhetsdao.newNews(req.body, (status, data) => {
         res.status(status);
@@ -78,21 +71,25 @@ app.post("/artikkel", (req: Request, res: Response) => {
     });
 });
 
-//Add a new comment to an article.
-app.put("/artikkel/:id/comment", (req: Request, res: Response) => {
-    console.log("Posting comment on article.");
-    return true;
-});
-//Add a brand new article for the site.
+//Edit a existing article.
 app.put("/artikkel/:id", (req: Request, res: Response) => {
-    return true;
+    nyhetsdao.editNews(req.body, (status, data) => {
+        res.status(status);
+        res.json(data);
+        console.log("News is edited.");
+    })
 });
 
 //Delete an article from the site.
 app.delete("/artikkel/:id", (req: Request, res: Response) => {
-    return true;
+    nyhetsdao.deleteNews(req.params.id, (status, data) => {
+        res.status(status);
+        res.json(data);
+        console.log("Deleted");
+    })
 });
 
+//Get the latest news. Within the last 24 hours.
 app.get("/latest", (req: Request, res: Response) => {
     nyhetsdao.getLatestNews((status, data) => {
         res.status(status);

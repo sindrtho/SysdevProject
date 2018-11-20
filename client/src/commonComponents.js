@@ -126,3 +126,11 @@ export class LiveFeed extends Component {
             .catch(err => console.log(err))
     }
 }
+
+export class Footer extends Component {
+    render() {
+        return (
+            <div id="footer"></div>
+        );
+    }
+}
